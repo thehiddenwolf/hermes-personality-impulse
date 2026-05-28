@@ -157,6 +157,15 @@ def _resolve_paths() -> dict[str, Path]:
     
     def get_path(key: str, default_filename: str) -> Path:
         val = plugin_cfg.get(key)
+        if not val and key == "identity_anchor_file":
+            # Fallback: check personality_rewrite_plugin config settings in config.yaml
+            try:
+                from hermes_cli.config import load_config_readonly
+                cfg = load_config_readonly()
+                rewrite_cfg = cfg.get("personality_rewrite_plugin") or {}
+                val = rewrite_cfg.get("identity_anchor_file")
+            except Exception:
+                pass
         if val:
             return Path(val).expanduser().resolve()
         return base_dir / default_filename
