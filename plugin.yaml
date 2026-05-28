@@ -1,0 +1,7 @@
+name: personality-impulse
+version: 1.0.0
+description: "Runs an auxiliary LLM call on the user's message to generate an ephemeral character gut feeling/impulse that is injected into the prompt context."
+author: "Spectra"
+hooks:
+  - pre_llm_call
+  - on_session_start
